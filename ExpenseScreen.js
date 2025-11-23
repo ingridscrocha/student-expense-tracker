@@ -17,25 +17,23 @@ export default function ExpenseScreen() {
 
   const [expenses, setExpenses] = useState([]);
 
-  // Add form state
+  
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [note, setNote] = useState('');
   const [date, setDate] = useState(''); // user-chosen date
 
-  // Filter: 'ALL' | 'WEEK' | 'MONTH'
+ 
   const [filter, setFilter] = useState('ALL');
 
-  // Editing state
+ 
   const [editingExpense, setEditingExpense] = useState(null);
   const [editAmount, setEditAmount] = useState('');
   const [editCategory, setEditCategory] = useState('');
   const [editNote, setEditNote] = useState('');
   const [editDate, setEditDate] = useState('');
 
-  // -----------------------------
-  // DB helpers
-  // -----------------------------
+
   const loadExpenses = async () => {
     const rows = await db.getAllAsync(
       'SELECT * FROM expenses ORDER BY id DESC;'
@@ -65,7 +63,7 @@ export default function ExpenseScreen() {
 
     // Basic date validation: must be a parsable date string
     if (isNaN(Date.parse(trimmedDate))) {
-      // you could show an alert here if you want
+     
       return;
     }
 
@@ -122,9 +120,7 @@ export default function ExpenseScreen() {
     loadExpenses();
   };
 
-  // -----------------------------
-  // Table setup
-  // -----------------------------
+ 
   useEffect(() => {
     async function setup() {
       await db.execAsync(`
@@ -143,9 +139,7 @@ export default function ExpenseScreen() {
     setup();
   }, []);
 
-  // -----------------------------
-  // Filtering helpers
-  // -----------------------------
+  
   const filteredExpenses = useMemo(() => {
     if (!expenses.length) return [];
 
@@ -185,9 +179,7 @@ export default function ExpenseScreen() {
     });
   }, [expenses, filter]);
 
-  // -----------------------------
-  // Totals (overall + by category)
-  // -----------------------------
+
   const overallTotal = useMemo(
     () => filteredExpenses.reduce((sum, exp) => sum + Number(exp.amount || 0), 0),
     [filteredExpenses]
@@ -210,9 +202,7 @@ export default function ExpenseScreen() {
       ? 'This Week'
       : 'This Month';
 
-  // -----------------------------
-  // Editing modal setup
-  // -----------------------------
+ 
   const openEditModal = (expense) => {
     setEditingExpense(expense);
     setEditAmount(String(expense.amount));
@@ -223,9 +213,7 @@ export default function ExpenseScreen() {
     );
   };
 
-  // -----------------------------
-  // Rendering
-  // -----------------------------
+  
   const renderExpense = ({ item }) => (
     <TouchableOpacity
       style={styles.expenseRow}
